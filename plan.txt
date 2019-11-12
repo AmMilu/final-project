@@ -1,0 +1,34 @@
+
+token 1fed526d5b1be50ab11c9f159abab6ae0214dfd6
+
+two ways to use the token
+1. curl https://api.github.com/?access_token=OAUTH-TOKEN
+2. curl -H "Authorization: token OAUTH-TOKEN" https://api.github.com
+
+1. decide what data to collect and use to analysis
+DONE
+
+line of code, lead time, cycle time, commit frequency, MTBF, MTTR, test coverage ratio, number of bugs, defect density
+
+each contributors: line of code, the number of commits, the first time the person committed, the last time the person committed
+the person's commit numbers in this repo/the person's total commit numbers
+
+2. decide which language to use python of javascript
+DONE 
+
+use python to collect data
+use mysql to select data
+use javascript to display data
+
+3. use the language to access github API and retrive the wanted data
+TODO how?
+
+the github i am going to analysis is pygithub: https://github.com/PyGithub/PyGithub
+
+4. figure out relationship between used language and database
+DONE
+pip install mysql-connector-python
+
+5. figure out ways to connect database with javascript(if not use)
+6. display the data on javascript
+7. update the display
