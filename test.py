@@ -1,8 +1,5 @@
-dictionary = {}
-
-def add_dict():
-    dictionary["test"] = 1
-
+import pprint
 if __name__ == "__main__":
-    add_dict()
-    print(dictionary)
+    testlist = 5+\
+        6
+    print(testlist)
