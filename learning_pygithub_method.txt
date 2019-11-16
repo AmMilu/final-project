@@ -1,2 +1,0 @@
-g.get_user("username")
-g.get_repo("PyGithub/PyGithub")
