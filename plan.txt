@@ -4,11 +4,16 @@ DONE
 
 each contributors: 
 
-impact = 25 x closed pull request number/total pull request number +
-         25 x total pull request number/all pull request number +
-         20 x issue closed number/issue assigned number +
-         10 x good emoji number/total emoji number
-         
+impact = 20 x total pull requests number / all pull requests number for repo +
+         15 x closed pull requests number / total pull requests number +
+         15 x assigned pull requests number / total pull requests number +
+
+         15 x issues closed number / issues assigned number +
+         15 x assigned issues number / total issues number +
+         15 x issues create number / total issues number +
+
+         10 x commits number / total commits number 
+
 2. decide which language to use python of javascript
 DONE 
 
@@ -16,7 +21,25 @@ use python to collect data
 use javascript to display data
 
 3. use the language to access github API and retrive the wanted data
-DONE
+
+Data collected for a specific repo:
+
+    contributors' names                 DONE
+    the total pull requests number      DONE
+    the total issues number             DONE
+    the total commits number            DONE
+
+Data collected for each contributors:
+
+    total pull requests number          DONE
+    closed pull requests number         DONE
+    assigned pull requests number       DONE
+    
+    assigned issues number              TODO
+    closed issues number                TODO
+    created issue number                TODO
+
+    the commit number on this repo      DONE
 
 4. figure out relationship between used language and database
 DONE

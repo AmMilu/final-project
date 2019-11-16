@@ -69,3 +69,26 @@ def get_contributor():
 def pull_request_total():
     pr = g.get_repo('jquery/jquery').get_pulls(state='all').totalCount
     return pr
+
+def contributor_pr(name):
+    open_count = 0
+    closed_count = 0
+    for cpr in g.get_repo('jquery/jquery').get_pulls(state='all'):
+        if(cpr.user.login == name):
+            if(cpr.state == 'open'):
+                open_count = open_count + 1
+            else:
+                closed_count = closed_count + 1
+    pr_dict = {'login': name, 'open_pr': open_count, 'closed_pr': closed_count, 'total_pr': open_count+closed_count}
+    return pr_dict
+
+def contributor_issue(name):
+    open_count = 0
+    closed_count = 0
+    for issue in g.get_repo('jquery/jquery').get_issues(state='all', assignee=name):
+        if(issue.state == 'open'):
+            open_count = open_count + 1
+        if(issue.state == 'closed'):
+            closed_count = closed_count + 1
+    issue_dict = {'assignee': name, 'open_issue': open_count, 'closed_issue': closed_count, 'total_issue': open_count+closed_count}
+    return issue_dict
