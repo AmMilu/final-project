@@ -1,106 +1,137 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <h2>contributor vs his merged pull request</h2>
-    </head>
-    <body>
-            <!-- Load d3.js -->
-            <script src="https://d3js.org/d3.v4.js"></script>
-            
-            <!-- Create a div where the graph will take place -->
-            <div id="my_dataviz"></div>
-            
-            <p>
-              <label># bins</label>
-              <input type="number" min="1" max="100" step="30" value="20" id="nBin">
-            </p>
-            
-            <script>
-            
-                // set the dimensions and margins of the graph
-                var margin = {top: 10, right: 30, bottom: 30, left: 40},
-                    width = 460 - margin.left - margin.right,
-                    height = 400 - margin.top - margin.bottom;
-                
-                // append the svg object to the body of the page
-                var svg = d3.select("#my_dataviz")
-                  .append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
-                  .append("g")
-                    .attr("transform",
-                          "translate(" + margin.left + "," + margin.top + ")");
-                
-                // get the data
-                d3.csv("pull_request.csv", function(data) {
-                
-                  // X axis: scale and draw:
-                  var x = d3.scaleLinear()
-                      .domain([0, 1000])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-                      .range([0, width]);
-                  svg.append("g")
-                      .attr("transform", "translate(0," + height + ")")
-                      .call(d3.axisBottom(x));
-                
-                  // Y axis: initialization
-                  var y = d3.scaleLinear()
-                      .range([height, 0]);
-                  var yAxis = svg.append("g")
-                
-                  // A function that builds the graph for a specific value of bin
-                  function update(nBin) {
-                
-                    // set the parameters for the histogram
-                    var histogram = d3.histogram()
-                        .value(function(d) { return d.merged_pull_request; })   // I need to give the vector of value
-                        .domain(x.domain())  // then the domain of the graphic
-                        .thresholds(x.ticks(nBin)); // then the numbers of bins
-                    // And apply this function to data to get the bins
-                    var bins = histogram(data);
-            
-            // Y axis: update now that we know the domain
-            y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
-            yAxis
-                .transition()
-                .duration(1000)
-                .call(d3.axisLeft(y));
-            
-            // Join the rect with the bins data
-            var u = svg.selectAll("rect")
-                .data(bins)
-            
-            // Manage the existing bars and eventually the new ones:
-            u
-                .enter()
-                .append("rect") // Add a new rect for each new elements
-                .merge(u) // get the already existing elements as well
-                .transition() // and apply changes to all of them
-                .duration(1000)
-                  .attr("x", 1)
-                  .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-                  .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
-                  .attr("height", function(d) { return height - y(d.length); })
-                  .style("fill", "#69b3a2")
-            
-            
-            // If less bar in the new histogram, I delete the ones not in use anymore
-            u
-                .exit()
-                .remove()
-            
-            }
-              // Initialize with 20 bins
-              update(20)
-            
-            
-              // Listen to the button -> update if user change it
-              d3.select("#nBin").on("input", function() {
-                update(+this.value);
-              });
-            
-            });
-            </script>
-    </body>
+  <head>
+    <h1 style="text-align: center;">Contributor pull request graph</h1>
+    <meta charset="utf-8">
+    <style>
+      html{
+        width: 100%
+      }
+      .tooltip{
+          position:relative;
+          display:inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <p style="text-align: center;">This graph shows each contributor's merged pull request number.</p>
+    <p style="text-align: center;">Put your mouse on the bar, the details will show on the bottom right corner.</p>
 
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+    <!-- Create a div where the graph will take place -->
+    <div id="my_dataviz"></div>
+    <script>
+
+
+        // set the dimensions and margins of the graph
+        var margin = {top: 50, right: 30, bottom: 70, left: 60},
+            width = 1360 - margin.left - margin.right,
+            height = 700 - margin.top - margin.bottom;
+        
+        // append the svg object to the body of the page
+        var svg = d3.select("#my_dataviz")
+          .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
+        
+        // Parse the Data
+        d3.csv("pull_request.csv", function(data) {
+        
+          // sort data
+          data.sort(function(b, a) {
+            return a.Value - b.Value;
+          });
+        
+          // X axis
+          var x = d3.scaleBand()
+            .range([ 0, width ])
+            .domain(data.map(function(d) { return d.username; }))
+            .padding(0.2);
+          svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+              .attr("transform", "translate(-10,0)rotate(-45)")
+              .style("text-anchor", "end");
+
+          // Add X axis label:
+          svg.append("text")
+              .attr("text-anchor", "end")
+              .attr("x", width)
+              .attr("y", height+70 )
+              .text("User name");
+
+          // Add Y axis
+          var y = d3.scaleLinear()
+            .domain([0, 130])
+            .range([ height, 0]);
+          svg.append("g")
+            .call(d3.axisLeft(y));
+
+          // Add Y axis label:
+          svg.append("text")
+              .attr("text-anchor", "end")
+              .attr("x", 0)
+              .attr("y", -15 )
+              .text("Merged Pull Request")
+              .attr("text-anchor", "start")
+
+          // ---------------------------//
+          //      TOOLTIP               //
+          // ---------------------------//
+
+          // -1- Create a tooltip div that is hidden by default:
+          var tooltip = d3.select("#my_dataviz")
+            .append("div")
+              .style("opacity", 0)
+              .attr("class", "tooltip")
+              .style("background-color", "black")
+              .style("border-radius", "5px")
+              .style("padding", "10px")
+              .style("color", "white")
+
+          // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+          var showTooltip = function(d) {
+            tooltip
+              .transition()
+              .duration(200)
+            tooltip
+              .style("opacity", 1)
+              .html("User: " + d.username + "  pull_request: " + d.merged_pull_request)
+              .style("margin-left", "1200px")
+          }
+          var moveTooltip = function(d) {
+            tooltip
+              .style("margin-left", "1200px")
+          }
+          var hideTooltip = function(d) {
+            tooltip
+              .transition()
+              .duration(200)
+              .style("opacity", 0)
+          }
+
+          // Bars
+          svg.selectAll("mybar")
+            .data(data)
+            .enter()
+            .append("rect")
+              .attr("x", function(d) { return x(d.username); })
+              .attr("y", function(d) { return y(d.merged_pull_request); })
+              .attr("width", x.bandwidth())
+              .attr("height", function(d) { return height - y(d.merged_pull_request); })
+              .attr("fill", "#69b3a2")
+            .on("mouseover", showTooltip )
+            .on("mousemove", moveTooltip )
+            .on("mouseleave", hideTooltip )
+
+        })
+
+    </script>
+  </body>
 </html>

@@ -21,26 +21,51 @@ def make_list():
 
 def convert_pull_request_to_csv():
     with open("display/pull_request.csv",'w', newline='') as myfile:
-        fieldnames = ['merged_pull_request']
+        fieldnames = ['username', 'merged_pull_request']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames)
         writer.writeheader()
         for piece in contributor_list:
-            writer.writerow({'merged_pull_request': piece["closed_pull_request"]})
+            if(piece["merged_pull_request"]!=0):
+                writer.writerow({'username': piece["login"], 'merged_pull_request': piece["merged_pull_request"]})
 
-def convert_issue_to_csv():
-    with open("display/issue.csv",'w', newline='') as myfile:
-        fieldnames = ['username','issue_score']
+def convert_create_issue_to_csv():
+    with open("display/create_issue.csv",'w', newline='') as myfile:
+        fieldnames = ['username', 'issue_level', 'create_issue']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames)
         writer.writeheader()
         for piece in contributor_list:
-            score = 0
-            if(piece["assigned_issue"] != 0):
-                score = 30 * piece["closed_issue"] / piece["assigned_issue"]
-            if(total_issue != 0):
-                score = score +30 * piece["create_issue"] / total_issue + \
-                               30 * piece["assigned_issue"] / total_issue
-            score = score / 100
-            writer.writerow({'username': piece["login"], 'issue_score': score})
+            tmp=piece["create_issue"]
+            if(tmp != 0):
+                if(tmp < 10):
+                    writer.writerow({'username': piece["login"], 'issue_level': "<10", 'create_issue': piece["create_issue"]})
+                elif(tmp < 50):
+                    writer.writerow({'username': piece["login"], 'issue_level': "10-50", 'create_issue': piece["create_issue"]})
+                elif(tmp < 100):
+                    writer.writerow({'username': piece["login"], 'issue_level': "50-100", 'create_issue': piece["create_issue"]})
+                elif(tmp < 150):
+                    writer.writerow({'username': piece["login"], 'issue_level': "100-150", 'create_issue': piece["create_issue"]})
+                else:
+                    writer.writerow({'username': piece["login"], 'issue_level': "150-200", 'create_issue': piece["create_issue"]})
+
+def convert_close_issue_to_csv():
+    with open("display/closed_issue.csv",'w', newline='') as myfile:
+        fieldnames = ['username','issue_level', 'closed_issue']
+        writer = csv.DictWriter(myfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for piece in contributor_list:
+            tmp=piece["closed_issue"]
+            if(tmp != 0):
+                if(tmp < 10):
+                    writer.writerow({'username': piece["login"], 'issue_level': "<10", 'closed_issue': tmp})
+                elif(tmp < 50):
+                    writer.writerow({'username': piece["login"], 'issue_level': "10-50", 'closed_issue': tmp})
+                elif(tmp < 100):
+                    writer.writerow({'username': piece["login"], 'issue_level': "50-100", 'closed_issue': tmp})
+                elif(tmp < 150):
+                    writer.writerow({'username': piece["login"], 'issue_level': "100-150", 'closed_issue': tmp})
+                else:
+                    writer.writerow({'username': piece["login"], 'issue_level': "150-200", 'closed_issue': tmp})
+
 
 def convert_impact_to_csv():
     with open("display/impact.csv", 'w', newline='') as myfile:
@@ -48,29 +73,31 @@ def convert_impact_to_csv():
         writer = csv.DictWriter(myfile, fieldnames=fieldnames)
         writer.writeheader()
         for piece in contributor_list:
-            if(piece["closed_issue"] + piece["create_issue"]<=10):
-                writer.writerow({'username': piece["login"], 'issue_level': "< 10", 
-                            'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
-                            'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
-            elif(piece["closed_issue"] + piece["create_issue"]<=100):
-                writer.writerow({'username': piece["login"], 'issue_level': "11 - 100", 
-                            'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
-                            'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
-            elif(piece["closed_issue"] + piece["create_issue"]<=200):
-                writer.writerow({'username': piece["login"], 'issue_level': "101 - 200", 
-                            'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
-                            'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
-            elif(piece["closed_issue"] + piece["create_issue"]<=500):
-                writer.writerow({'username': piece["login"], 'issue_level': "201 - 500", 
-                            'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
-                            'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
-            else:
-                writer.writerow({'username': piece["login"], 'issue_level': "> 500", 
-                            'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
-                            'pull_request': piece["merged_pull_request"], 'commit_count': piece["commit"]})
+            if(piece["impact"] != 0):
+                if(piece["closed_issue"] + piece["create_issue"]<10):
+                    writer.writerow({'username': piece["login"], 'issue_level': "< 10", 
+                                'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
+                                'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
+                elif(piece["closed_issue"] + piece["create_issue"]<100):
+                    writer.writerow({'username': piece["login"], 'issue_level': "10 - 100", 
+                                'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
+                                'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
+                elif(piece["closed_issue"] + piece["create_issue"]<200):
+                    writer.writerow({'username': piece["login"], 'issue_level': "100 - 200", 
+                                'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
+                                'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
+                elif(piece["closed_issue"] + piece["create_issue"]<500):
+                    writer.writerow({'username': piece["login"], 'issue_level': "200 - 500", 
+                                'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
+                                'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
+                else:
+                    writer.writerow({'username': piece["login"], 'issue_level': "> 500", 
+                                'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
+                                'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
 
 if __name__ == "__main__":
     make_list()
-    convert_impact_to_csv()
-    #convert_pull_request_to_csv()
-    #convert_issue_to_csv()
+    #convert_create_issue_to_csv()
+    #convert_close_issue_to_csv()
+    #convert_impact_to_csv()
+    convert_pull_request_to_csv()

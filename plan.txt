@@ -35,18 +35,22 @@ Data collected for each contributors:
     closed pull requests number         DONE
     assigned pull requests number       DONE
     
-    assigned issues number              TODO
-    closed issues number                TODO
-    created issue number                TODO
+    assigned issues number              DONE
+    closed issues number                DONE
+    created issue number                DONE
 
     the commit number on this repo      DONE
 
 4. figure out relationship between used language and database
 DONE
-pip install mysql-connector-python
 
-5. figure out ways to connect database with javascript
+used csv file to connect with d3.js
 
-6. display the data on javascript
+5. display the data on javascript
+DONE
 
-7. update the display
+6. update the display
+
+main page needed to connect with user search and different pages
+
+TODO
