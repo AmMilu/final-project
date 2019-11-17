@@ -38,7 +38,3 @@ impact :
     15 x issues create number / total issues number +
 
     10 x commits number / total commits number 
-
-impact :
-
-    100 x impact (some of the results are really small, this is to make the number clearer)
