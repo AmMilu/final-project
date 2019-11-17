@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <h1 style="text-align:center;"> Contributor Impact Graph</h1>
+    <style>
+        pre{
+          margin-left: 400px;
+        }
+      </style>
+  </head>
+  <body>
+    
+    <pre>
+      This graph shows the impact of each contributor, including impact score,
+      merged pull requests number, closed issue number and commit number.</pre>
+              
+    <pre>
+      The equation for impact score calculation is: 
+      impact = 25 x merged pull requests number / all repo pull requests number + 
+               15 x assigned pull requests number / all repo pull requests number +
+               20 x issues closed number / issues assigned number +
+               15 x assigned issues number / total issues number +
+               15 x issues create number / total issues number +
+               10 x commits number / total commits number</pre>
+  </body>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Load color scale -->
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<!-- A bit of CSS: change stroke color of circle on hover (white -> black) -->
+<style>
+.bubbles {
+  opacity: .8
+}
+.bubbles:hover {
+  stroke-width: 3px;
+  stroke: black;
+}
+</style>
+<script>
+
+    // set the dimensions and margins of the graph
+    var margin = {top: 40, right: 370, bottom: 300, left: 230},
+        width = 1300 - margin.left - margin.right,
+        height = 900 - margin.top - margin.bottom;
+    
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right+50)
+        .attr("height", height + margin.top + margin.bottom - 230)
+      .append("g")
+        .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")");
+    
+    //Read the data
+    d3.csv("impact.csv", function(data) {
+    
+      // ---------------------------//
+      //       AXIS  AND SCALE      //
+      // ---------------------------//
+    
+      // Add X axis
+      var x = d3.scaleLinear()
+        .domain([0, 600])
+        .range([ 0, width ]);
+      svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x).ticks(3));
+    
+      // Add X axis label:
+      svg.append("text")
+          .attr("text-anchor", "end")
+          .attr("x", width)
+          .attr("y", height+50 )
+          .text("Commit Times");
+      // Add Y axis
+      var y = d3.scaleLinear()
+        .domain([0, 30])
+        .range([ height, 0]);
+      svg.append("g")
+        .call(d3.axisLeft(y));
+
+      // Add Y axis label:
+      svg.append("text")
+          .attr("text-anchor", "end")
+          .attr("x", 0)
+          .attr("y", -20 )
+          .text("Impact")
+          .attr("text-anchor", "start")
+
+      // Add a scale for bubble size
+      var z = d3.scaleSqrt()
+        .domain([0, 150])
+        .range([2, 30]); 
+
+      // Add a scale for bubble color
+      var myColor = d3.scaleOrdinal()
+        .domain(["< 10", "11 - 100", "101 - 200", "201 - 500", "> 500"])
+        .range(d3.schemeSet1);
+
+
+      // ---------------------------//
+      //      TOOLTIP               //
+      // ---------------------------//
+
+      // -1- Create a tooltip div that is hidden by default:
+      var tooltip = d3.select("#my_dataviz")
+        .append("div")
+          .style("opacity", 0)
+          .attr("class", "tooltip")
+          .style("background-color", "black")
+          .style("border-radius", "5px")
+          .style("padding", "10px")
+          .style("color", "white")
+
+      // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+      var showTooltip = function(d) {
+        tooltip
+          .transition()
+          .duration(200)
+        tooltip
+          .style("opacity", 1)
+          .html("User: " + d.username + "  Impact: " + d.impact/100 + "  Commit: " + d.commit
+                + "  Pull Request: " + d.pull_request + "  Issue: " + d.issue)
+          .style("left", (d3.mouse(this)[0]+10) + "px")
+          .style("top", (d3.mouse(this)[1]) + "px")
+      }
+      var moveTooltip = function(d) {
+        tooltip
+          .style("left", (d3.mouse(this)[0]+10) + "px")
+          .style("top", (d3.mouse(this)[1]+10) + "px")
+      }
+      var hideTooltip = function(d) {
+        tooltip
+          .transition()
+          .duration(200)
+          .style("opacity", 0)
+      }
+
+      // ---------------------------//
+      //       CIRCLES              //
+      // ---------------------------//
+
+      // Add dots
+      svg.append('g')
+        .selectAll("dot")
+        .data(data)
+        .enter()
+        .append("circle")
+          .attr("class", function(d) { return "bubbles " + d.issue })
+          .attr("cx", function (d) { return x(d.commit); } )
+          .attr("cy", function (d) { return y(d.impact/100); } )
+          .attr("r", function (d) { return z(d.pull_request); } )
+          .style("fill", function (d) { return myColor(d.issue_level); } )
+        // -3- Trigger the functions for hover
+        .on("mouseover", showTooltip )
+        .on("mousemove", moveTooltip )
+        .on("mouseleave", hideTooltip )
+
+      // ---------------------------//
+      //       LEGEND              //
+      // ---------------------------//
+
+      // Add legend: circles
+      var valuesToShow = [50, 100, 150]
+      var xCircle = 850
+      var xLabel = 900
+      svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("circle")
+          .attr("cx", xCircle)
+          .attr("cy", function(d){ return height - 100 - z(d) } )
+          .attr("r", function(d){ return z(d) })
+          .style("fill", "none")
+          .attr("stroke", "black")
+
+      // Add legend: segments
+      svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("line")
+          .attr('x1', function(d){ return xCircle + z(d) } )
+          .attr('x2', xLabel)
+          .attr('y1', function(d){ return height - 100 - z(d) } )
+          .attr('y2', function(d){ return height - 100 - z(d) } )
+          .attr('stroke', 'black')
+          .style('stroke-dasharray', ('2,2'))
+
+      // Add legend: labels
+      svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("text")
+          .attr('x', xLabel)
+          .attr('y', function(d){ return height - 100 - z(d) } )
+          .text( function(d){ return d } )
+          .style("font-size", 10)
+          .attr('alignment-baseline', 'middle')
+
+      // Legend title
+      svg.append("text")
+        .attr('x', xCircle)
+        .attr("y", height - 100 +30)
+        .text("Pull Request")
+        .attr("text-anchor", "middle")
+
+      // Add one dot in the legend for each name.
+      var size = 20
+      var allgroups = ["< 10", "11 - 100", "101 - 200", "201 - 500", "> 500"]
+      svg.selectAll("myrect")
+      .data(allgroups)
+      .enter()
+      .append("circle")
+        .attr("cx", 850)
+        .attr("cy", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("r", 7)
+        .style("fill", function(d){ return myColor(d)})
+
+    // Add labels beside legend dots
+    svg.selectAll("mylabels")
+      .data(allgroups)
+      .enter()
+      .append("text")
+        .attr("x", 850 + size*.8)
+        .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", function(d){ return myColor(d)})
+        .text(function(d){ return d})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+    })
+</script>
+</html>

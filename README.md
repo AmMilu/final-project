@@ -28,7 +28,8 @@ Data collected for each contributors:
     the commit number on this repo
 
 # the impact calculation equation for each contributor
-impact = 
+impact :
+
     25 x merged pull requests number / all repo pull requests number +
     15 x assigned pull requests number / all repo pull requests number +
 
@@ -38,5 +39,6 @@ impact =
 
     10 x commits number / total commits number 
 
-impact = 
-    1000 x impact (some of the results are really small, this is to make the number clearer)
+impact :
+
+    100 x impact (some of the results are really small, this is to make the number clearer)

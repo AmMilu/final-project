@@ -1,6 +1,5 @@
 #this file is used to access Github API
 from github import Github
-import json
 
 ACCESS_TOKEN = '43fa63c2ef98b7dd8e0c76ee4560aee7686960f'
 g = Github(ACCESS_TOKEN+'6')
@@ -11,7 +10,7 @@ contributor_list = []
 def get_contributor(keyword):
     contributor_count = 0
     for c in g.get_repo(keyword).get_contributors():
-        contributor_dictionary = {'login': 'null', 'closed_pull_request': 0, 'total_pull_request': 0, 'assigned_pull_request': 0,
+        contributor_dictionary = {'login': 'null', 'merged_pull_request': 0, 'total_pull_request': 0, 'assigned_pull_request': 0,
                                     'closed_issue': 0, 'assigned_issue': 0, 'create_issue': 0, 'commit': 0, 'impact': 0}
         contributor_dictionary["login"] = c.login
         contributor_list.append(contributor_dictionary)
@@ -31,7 +30,7 @@ def contributor_pr(keyword):
             if(cpr.user.login == name):
                 piece["total_pull_request"] = piece["total_pull_request"] + 1
                 if(cpr.state == 'closed' and cpr.merged_at is not None):                #if a pull request is not merge, then it doesn't count in the compact
-                    piece["closed_pull_request"] = piece["closed_pull_request"] + 1
+                    piece["merged_pull_request"] = piece["merged_pull_request"] + 1
             if(cpr.assignee is not None and cpr.assignee.login == name):
                 piece["assigned_pull_request"] = piece["assigned_pull_request"] + 1
 
@@ -64,28 +63,28 @@ def contributor_commit(keyword):
 
 def impact_calculate(info, total_pr, total_issue, commit):
     if(total_pr != 0):
-        info["impact"] = 25 * info["closed_pull_request"] / total_pr + 15 * info["assigned_pull_request"] / total_pr
-    if(piece["assigned_issue"] != 0):
-        info["impact"] = info["impact"] + 20 * info["closed_issue"] / piece["assigned_issue"]
-    if(commit != 0):
-        info["impact"] = info["impact"] + 10 * info["commit"] / commit
+        info["impact"] = 25 * info["merged_pull_request"] / total_pr + 15 * info["assigned_pull_request"] / total_pr
+    if(info["assigned_issue"] != 0):
+        info["impact"] = info["impact"] + 20 * info["closed_issue"] / info["assigned_issue"]
     if(total_issue != 0):
         info["impact"] = info["impact"] + 15 * info["assigned_issue"] / total_issue + 15 * info["create_issue"] / total_issue
-    info["impact"] = 1000 * info["impact"]
+    if(commit != 0):
+        info["impact"] = info["impact"] + 10 * info["commit"] / commit
+    info["impact"] = 100 * info["impact"]
 
-if __name__ == "__main__":
-    keyword = input('Enter keyword(s) of the repo you want to analysis [format: username/repo]\n(e.g. jquery/jquery or PyGithub/PyGithub):\n')    
-    get_contributor(keyword)
-    contributor_pr(keyword)
-    contributor_issue(keyword)
-    contributor_commit(keyword)
-    total_pr = pr_total(keyword)
-    total_issue = issue_total(keyword) - total_pr
-    commit = commit_total(keyword)
-    for piece in contributor_list: #the issue result contains pull request numbers, this is used to print out the list and pure the issue data
-        piece["assigned_issue"] = piece["assigned_issue"] - piece["assigned_pull_request"]
-        piece["closed_issue"] = piece["closed_issue"] - piece["assigned_pull_request"]
-        piece["create_issue"] = piece["create_issue"] - piece["total_pull_request"]
-        impact_calculate(piece, total_pr, total_issue, commit)
-        print(piece)
-    print('pr_total: ' + str(total_pr) + ' issue_total: ' + str(total_issue) + ' commit_total: ' + str(commit))
+#if __name__ == "__main__":
+#    keyword = input('Enter keyword(s) of the repo you want to analysis [format: username/repo]\n(e.g. jquery/jquery or PyGithub/PyGithub):\n')    
+#    get_contributor(keyword)
+#    contributor_pr(keyword)
+#    contributor_issue(keyword)
+#    contributor_commit(keyword)
+#    total_pr = pr_total(keyword)
+#    total_issue = issue_total(keyword) - total_pr
+#    commit = commit_total(keyword)
+#    for piece in contributor_list: #the issue result contains pull request numbers, this is used to print out the list and pure the issue data
+#        piece["assigned_issue"] = piece["assigned_issue"] - piece["assigned_pull_request"]
+#        piece["closed_issue"] = piece["closed_issue"] - piece["assigned_pull_request"]
+#        piece["create_issue"] = piece["create_issue"] - piece["total_pull_request"]
+#        impact_calculate(piece, total_pr, total_issue, commit)
+#        print(piece)
+#    print('pr_total: ' + str(total_pr) + ' issue_total: ' + str(total_issue) + ' commit_total: ' + str(commit))
