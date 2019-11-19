@@ -5,21 +5,31 @@
     <meta charset="utf-8">
     <style>
       html{
-        width: 100%
+        width: 100%;
+        background: #DDD;
       }
       .tooltip{
           position:relative;
           display:inline-block;
       }
+      pre{
+        margin-left: 400px;
+      }
       </style>
   </head>
   <body>
+
+    <button style="margin-left: 500px;" onclick="window.location.href='{{ url_for ('main') }}'">Home</button>
+    <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('create') }}'">create issue</button>
+    <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('closed') }}'">closed issue</button>
+    <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('pull') }}'">pull request</button>
     
-    <pre style="width: 100%; text-align: center;">
+    <br><br>
+    <pre>
       This graph shows the impact of each contributor, including impact score,
       merged pull requests number, closed issue number and commit number.</pre>
               
-    <pre style="width: 100%; text-align: center;">
+    <pre>
       The equation for impact score calculation is: 
       impact = 25 x merged pull requests number / all repo pull requests number + 
                15 x assigned pull requests number / all repo pull requests number +
@@ -27,8 +37,9 @@
                15 x assigned issues number / total issues number +
                15 x issues create number / total issues number +
                10 x commits number / total commits number</pre>
-    <p style="width: 100%; text-align: center;">Move your mouse to the circles to see the details. (shown at bottom right corner)</p>
-    
+    <br>
+    <p style="margin-left: 450px;">Move your mouse to the circles to see the details. (shown at bottom right corner)</p>
+
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
 
@@ -67,7 +78,8 @@
                   "translate(" + margin.left + "," + margin.top + ")");
         
         //Read the data
-        d3.csv("impact.csv", function(data) {
+        d3.csv("/static/impact.csv", function(data) {
+          console.log(data)
           // ---------------------------//
           //       AXIS  AND SCALE      //
           // ---------------------------//

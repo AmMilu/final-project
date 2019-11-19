@@ -4,8 +4,8 @@ import csv
 total_pr = 0
 total_issue = 0
 
-def make_list():
-    keyword = input('Enter keyword(s) of the repo you want to analysis [format: username/repo]\n(e.g. jquery/jquery or PyGithub/PyGithub):\n')    
+def make_list(keyword):
+    #keyword = input('Enter keyword(s) of the repo you want to analysis [format: username/repo]\n(e.g. jquery/jquery or PyGithub/PyGithub):\n')    
     get_contributor(keyword)
     contributor_pr(keyword)
     contributor_issue(keyword)
@@ -20,7 +20,7 @@ def make_list():
         impact_calculate(piece, total_pr, total_issue, commit)
 
 def convert_pull_request_to_csv():
-    with open("display/pull_request.csv",'w', newline='') as myfile:
+    with open("static/pull_request.csv",'w', newline='') as myfile:
         fieldnames = ['username', 'merged_pull_request']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames)
         writer.writeheader()
@@ -29,7 +29,7 @@ def convert_pull_request_to_csv():
                 writer.writerow({'username': piece["login"], 'merged_pull_request': piece["merged_pull_request"]})
 
 def convert_create_issue_to_csv():
-    with open("display/create_issue.csv",'w', newline='') as myfile:
+    with open("static/create_issue.csv",'w', newline='') as myfile:
         fieldnames = ['username', 'issue_level', 'create_issue']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames)
         writer.writeheader()
@@ -48,7 +48,7 @@ def convert_create_issue_to_csv():
                     writer.writerow({'username': piece["login"], 'issue_level': "150-200", 'create_issue': piece["create_issue"]})
 
 def convert_close_issue_to_csv():
-    with open("display/closed_issue.csv",'w', newline='') as myfile:
+    with open("static/closed_issue.csv",'w', newline='') as myfile:
         fieldnames = ['username','issue_level', 'closed_issue']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames)
         writer.writeheader()
@@ -68,7 +68,7 @@ def convert_close_issue_to_csv():
 
 
 def convert_impact_to_csv():
-    with open("display/impact.csv", 'w', newline='') as myfile:
+    with open("static/impact.csv", 'w', newline='') as myfile:
         fieldnames = ['username','issue_level','issue','impact','pull_request', 'commit']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames)
         writer.writeheader()
@@ -94,10 +94,3 @@ def convert_impact_to_csv():
                     writer.writerow({'username': piece["login"], 'issue_level': "> 500", 
                                 'issue': piece["closed_issue"] + piece["create_issue"],'impact': round(piece["impact"]),
                                 'pull_request': piece["merged_pull_request"], 'commit': piece["commit"]})
-
-if __name__ == "__main__":
-    make_list()
-    #convert_create_issue_to_csv()
-    #convert_close_issue_to_csv()
-    #convert_impact_to_csv()
-    convert_pull_request_to_csv()

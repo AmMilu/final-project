@@ -12,6 +12,7 @@
         html,body{
           width: 100%;
           height: 100%;
+          background: #DDD;
         }
         .node:hover{
           stroke-width: 7px !important;
@@ -24,10 +25,19 @@
     </style>
   </head>
   <body>
-    <pre style="width: 100%; text-align: center;">
+
+      <button style="margin-left: 500px;" onclick="window.location.href='{{ url_for ('main') }}'">Home</button>
+      <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('create') }}'">create issue</button>
+      <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('pull') }}'">pull request</button>
+      <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('impact') }}'">impact</button>
+
+    <pre style="margin-left: 400px;">
       This graph shows the number of issues each contributor created.
+
       The size of the circle represents the numbers.
-      Move mouse to the circle to see the details.
+
+      Move mouse to the circle to see the details. (details are shown at the right bottom corner)
+
       Drag the circle around to have fun.
     </pre>
 
@@ -49,7 +59,8 @@
             .style("border-block-width", width)
         
         // Read data
-        d3.csv("closed_issue.csv", function(data) {
+        d3.csv("/static/closed_issue.csv", function(data) {
+          console.log(data)
         
         // Color palette for continents?
         var color = d3.scaleOrdinal()

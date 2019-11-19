@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1 style="text-align: center;"> HOME PAGE </h1>
+        <style>
+            html{
+                width: 100%;
+                background: #DDD;
+            }
+            p{
+                width: 100%;
+                margin-left: 400px;
+            }
+        </style>
+    </head>
+    <body>
+        <br>
+        <p>This page is to show the analysis result of the contributors of a specific repo you want to search.</p>
+        <p>The results including their pull request number campare, issue creation and close compare and impact.</p>
+        <p>click the buttons to see the specific pictures</p>
+        <br><br><br>
+        <form method='POST' style="margin-left: 550px;">
+                User name:<br>
+                <input type="text" name="username"><br>
+                Repository name:<br>
+                <input type="text" name="reponame"><br>
+                <br>
+                <input type="submit">
+        </form>
+        <br><br><br>
+        <button style="margin-left: 450px;" onclick="window.location.href='{{ url_for ('impact') }}'">impact page</button>
+        <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('create') }}'">create issue</button>
+        <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('closed') }}'">closed issue</button>
+        <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('pull') }}'">pull request</button>
+        
+    </body>
+</html>

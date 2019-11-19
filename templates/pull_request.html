@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <style>
       html{
-        width: 100%
+        width: 100%;
+        background: #DDD;
       }
       .tooltip{
           position:relative;
@@ -14,8 +15,16 @@
     </style>
   </head>
   <body>
-    <p style="text-align: center;">This graph shows each contributor's merged pull request number.</p>
-    <p style="text-align: center;">Put your mouse on the bar, the details will show on the bottom right corner.</p>
+
+      <button style="margin-left: 500px;" onclick="window.location.href='{{ url_for ('main') }}'">Home</button>
+      <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('create') }}'">create issue</button>
+      <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('closed') }}'">closed issue</button>
+      <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('impact') }}'">impact</button>
+
+    <pre style="margin-left: 400px;">
+      This graph shows each contributor's merged pull request number.
+      
+      Put your mouse on the bar, the details will show on the bottom right corner.</pre>
 
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
@@ -40,7 +49,8 @@
                   "translate(" + margin.left + "," + margin.top + ")");
         
         // Parse the Data
-        d3.csv("pull_request.csv", function(data) {
+        d3.csv("/static/pull_request.csv", function(data) {
+          console.log(data)
         
           // sort data
           data.sort(function(b, a) {
