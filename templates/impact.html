@@ -86,7 +86,7 @@
 
           // Add X axis
           var x = d3.scaleLinear()
-            .domain([0, 2000])
+            .domain([0, {{commit}}+3])
             .range([ 0, width ]);
           svg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -101,7 +101,7 @@
 
           // Add Y axis
           var y = d3.scaleLinear()
-            .domain([0, 35])
+            .domain([0, {{impact}}+3])
             .range([ height, 0]);
           svg.append("g")
             .call(d3.axisLeft(y));
@@ -116,7 +116,7 @@
 
           // Add a scale for bubble size
           var z = d3.scaleSqrt()
-            .domain([0, 150])
+            .domain([0, {{pull_request}}])
             .range([2, 30]);
 
           // Add a scale for bubble color
@@ -231,7 +231,7 @@
               svg.append("text")
                 .attr('x', xCircle)
                 .attr("y", height - 100 +30)
-                .text("Population (M)")
+                .text("Pull Request")
                 .attr("text-anchor", "middle")
 
               // Add one dot in the legend for each name.
