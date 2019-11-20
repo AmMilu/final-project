@@ -1,12 +1,13 @@
 # final-project
-The final project of software engineering
+    The final project of software engineering
 
 # requirement
-pip install PyGithub
-pip install flask
+    pip install PyGithub
+    pip install flask
 
 # description
-This project is to compare each contributor's impact on a specific repo. An equation is created to measure the impact.
+    This project is to compare each contributor's impact on a specific repo. 
+    An equation is created to measure the impact.
 
 # how to use
     1. Run "python3 project.py" and copy the link to the brower.
@@ -16,14 +17,14 @@ This project is to compare each contributor's impact on a specific repo. An equa
     5. Click buttons on each page can change the pages and can also link back to home page.
 
 # data collection
-Data collected for a specific repo:
+    Data collected for a specific repo:
 
     contributors' names
     the total pull requests number
     the total issues number
     the total commits number
 
-Data collected for each contributors:
+    Data collected for each contributors:
 
     total pull requests number
     closed pull requests number
@@ -36,7 +37,7 @@ Data collected for each contributors:
     the commit number on this repo
 
 # the impact calculation equation for each contributor
-impact :
+    impact :
 
     25 x merged pull requests number / all repo pull requests number +
     15 x assigned pull requests number / all repo pull requests number +
