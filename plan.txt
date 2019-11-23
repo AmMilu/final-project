@@ -53,4 +53,12 @@ DONE
 
 main page needed to connect with user search and different pages
 
+DONE
+
+7. need to figure out how to clear the cache everytime user wants to search for a new repo
+
 TODO
+
+8. need to make a 404 not found page if invalid user or repo name is searched
+
+DONE

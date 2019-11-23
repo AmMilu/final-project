@@ -19,9 +19,9 @@ def make_list(keyword):
     most.append(0)
     most.append(0)
     for piece in contributor_list: #the issue result contains pull request numbers, this is used to print out the list and pure the issue data
-        piece["assigned_issue"] = piece["assigned_issue"] - piece["assigned_pull_request"]
-        piece["closed_issue"] = piece["closed_issue"] - piece["assigned_pull_request"]
-        piece["create_issue"] = piece["create_issue"] - piece["total_pull_request"]
+        #piece["assigned_issue"] = piece["assigned_issue"] - piece["assigned_pull_request"]
+        #piece["closed_issue"] = piece["closed_issue"] - piece["assigned_pull_request"]
+        #piece["create_issue"] = piece["create_issue"] - piece["total_pull_request"]
         impact_calculate(piece, total_pr, total_issue, commit)
         if(piece["merged_pull_request"] > most[1]):
             most[1] = piece["merged_pull_request"]

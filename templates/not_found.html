@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1 style="text-align: center;"> NOT FOUND </h1>
+        <style>
+            html{
+                width: 100%;
+                background: #DDD;
+            }
+            p{
+                width: 100%;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <br>
+        <p> The user: {{user}} repo: {{repo}} you are trying to find is not exist. Click Home button to return.</p>
+        <br>
+        <button style="margin-left: 700px;" onclick="window.location.href='{{ url_for ('main') }}'">Home</button>
+    </body>
+</html>

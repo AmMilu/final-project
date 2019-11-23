@@ -24,6 +24,7 @@
     <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('closed') }}'">closed issue</button>
     <button style="margin-left: 50px;" onclick="window.location.href='{{ url_for ('pull') }}'">pull request</button>
     
+    <p>Warning: if you click home button, your search result will be gone.</p>
     <br><br>
     <pre>
       This graph shows the impact of each contributor, including impact score,
@@ -188,7 +189,7 @@
               // ---------------------------//
 
               // Add legend: circles
-              var valuesToShow = [50, 100, 150]
+              var valuesToShow = [Math.round({{pull_request}}/3), Math.round({{pull_request}}/3*2), Math.round({{pull_request}})]
               var xCircle = 850
               var xLabel = 900
               svg
