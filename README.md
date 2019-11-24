@@ -10,11 +10,13 @@
     An equation is created to measure the impact.
 
 # how to use
+    ***Before everytime search for a new repo, remember to clear the browser's cache***
     1. Run "python3 project.py" and copy the link to the brower.
     2. Input the username and repository name you want to search. (suggest jquery jquery)
     3. Click "Search" and wait until the page finish loading. (The program is running at the background)
     4. After it finish loading again, click the page(graph) you want to have a look.
     5. Click buttons on each page can change the pages and can also link back to home page.
+    ***if a correct repo is searched and not found page is shown, please check your internet before search again***
 
 # data collection
     Data collected for a specific repo:

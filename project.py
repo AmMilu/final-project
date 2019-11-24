@@ -4,8 +4,6 @@ from access import *
 
 app = Flask(__name__)
 
-exist = True
-
 @app.route("/")
 def main():
     return render_template('main.html')

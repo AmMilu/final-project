@@ -1,22 +1,42 @@
 username,issue_level,issue,impact,pull_request,commit
-arschmitz,10 - 100,24,23,1,25
-sfrisk,10 - 100,54,26,1,8
-geekman-rohit,10 - 100,14,4,1,7
-cvrebert,< 10,6,2,0,4
-MichaelArestad,< 10,5,1,0,3
-nashvail,10 - 100,13,3,0,3
-arthurvr,< 10,3,1,0,2
-cbracco,< 10,1,0,0,2
-prasunanand,< 10,3,1,0,2
-scottgonzalez,< 10,5,1,0,2
-AndSheCodes2,< 10,2,1,0,2
-shortcut-official,< 10,0,0,0,1
-alexeiTruhin,< 10,1,0,0,1
-agcolom,< 10,1,0,0,1
-rawteech,< 10,1,0,0,1
-danielle-b,< 10,1,0,0,1
-jzaefferer,< 10,3,1,0,1
-kristyjy,< 10,5,1,0,1
-awayken,< 10,2,1,1,1
-SatyaSudheer,< 10,2,1,1,1
-thejdeep,< 10,6,1,0,1
+arschmitz,10 - 100,26,19,1,4
+sfrisk,10 - 100,54,22,1,0
+geekman-rohit,10 - 100,14,2,1,0
+cvrebert,< 10,6,1,0,0
+MichaelArestad,< 10,5,1,0,0
+nashvail,10 - 100,13,2,0,0
+arthurvr,< 10,3,0,0,0
+cbracco,< 10,1,0,0,0
+prasunanand,< 10,3,0,0,0
+scottgonzalez,10 - 100,42,30,0,220
+AndSheCodes2,< 10,2,0,0,0
+alexeiTruhin,< 10,1,0,0,0
+agcolom,< 10,5,1,0,2
+rawteech,< 10,1,0,0,0
+danielle-b,< 10,1,0,0,0
+jzaefferer,10 - 100,31,9,7,78
+kristyjy,< 10,5,1,0,0
+awayken,< 10,2,1,1,0
+SatyaSudheer,< 10,2,1,1,0
+thejdeep,< 10,6,1,0,0
+scottgonzalez,10 - 100,37,29,0,220
+rxaviers,10 - 100,13,25,2,103
+jzaefferer,10 - 100,28,8,7,78
+tjvantoll,< 10,3,1,0,17
+rdworth,< 10,0,0,0,8
+arschmitz,< 10,2,0,0,4
+gnarf,< 10,3,20,0,4
+kborchers,< 10,1,0,0,4
+ajpiano,< 10,0,0,0,3
+agcolom,< 10,4,1,0,2
+petersendidit,< 10,2,0,0,2
+ericcarraway,< 10,2,0,0,2
+mgol,< 10,3,0,0,2
+fnagel,< 10,1,0,0,1
+jonlongnecker,< 10,0,0,0,1
+mroswell,< 10,1,0,0,1
+mikesherov,< 10,0,0,0,1
+RedWolves,< 10,2,0,0,1
+rlovtangen,< 10,1,0,0,1
+usmonster,< 10,1,0,0,1
+bakkegaard,< 10,1,1,1,1
