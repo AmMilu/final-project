@@ -22,6 +22,12 @@ def make_list(keyword):
         #piece["assigned_issue"] = piece["assigned_issue"] - piece["assigned_pull_request"]
         #piece["closed_issue"] = piece["closed_issue"] - piece["assigned_pull_request"]
         #piece["create_issue"] = piece["create_issue"] - piece["total_pull_request"]
+        if(piece["assigned_issue"] > piece["assigned_pull_request"]):
+            piece["assigned_issue"] = piece["assigned_issue"] - piece["assigned_pull_request"]
+        if(piece["closed_issue"] > piece["assigned_pull_request"]):
+            piece["closed_issue"] = piece["closed_issue"] - piece["assigned_pull_request"]
+        if(piece["create_issue"] > piece["total_pull_request"]):
+            piece["create_issue"] = piece["create_issue"] - piece["total_pull_request"]
         impact_calculate(piece, total_pr, total_issue, commit)
         if(piece["merged_pull_request"] > most[1]):
             most[1] = piece["merged_pull_request"]
