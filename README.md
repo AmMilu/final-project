@@ -1,13 +1,12 @@
 # final-project
     The final project of software engineering
+    
+    This project is to compare each contributor's impact on a specific repo. 
+    An equation is created to measure the impact.
 
 # requirement
     pip install PyGithub
     pip install flask
-
-# description
-    This project is to compare each contributor's impact on a specific repo. 
-    An equation is created to measure the impact.
 
 # how to use
     ***Before everytime search for a new repo, remember to clear the browser's cache***
@@ -18,7 +17,7 @@
     5. Click buttons on each page can change the pages and can also link back to home page.
     ***if a correct repo is searched and not found page is shown, please check your internet before search again***
 
-# data collection
+## data collection
     Data collected for a specific repo:
 
     contributors' names
@@ -38,7 +37,7 @@
 
     the commit number on this repo
 
-# the impact calculation equation for each contributor
+## the impact calculation equation for each contributor
     impact :
 
     25 x merged pull requests number / all repo pull requests number +
@@ -49,3 +48,25 @@
     15 x issues create number / total issues number +
 
     10 x commits number / total commits number 
+
+# test result
+
+the test input is username: jquery reponame: jquery
+
+![](screenshot/home%20page.png)
+    
+the output impact page
+
+![](screenshot/impact.png)
+    
+the output create issue page
+
+![](screenshot/create%20issue.png)
+    
+the output closed issue page
+
+![](screenshot/closed%20issue.png)
+    
+the pull request page
+
+![](screenshot/pull%20request.png)
